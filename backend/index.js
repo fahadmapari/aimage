@@ -5,17 +5,17 @@ const { generateImage } = require("./config/openAi");
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(express.static("public"));
 
-app.get("/", (req, res) => {
-  res.send("hi");
-});
+// app.get("/", (req, res) => {
+//   res.send("hi");
+// });
 
 app.post("/generate", async (req, res) => {
   const { description, user } = req.body;
 
-  const response = await generateImage(description, user);
-
   try {
+    const response = await generateImage(description, user);
     res.json({ success: true, data: response.data });
   } catch (err) {
     res.status(503).json({
